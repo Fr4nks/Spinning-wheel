@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html scrolltop="NaN" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Language" content="en-us">
+
+
+
+<title>jQuery Patch: Animate CSS Rotation and Scale - zachstronaut</title>
+
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.1.0.min.js"></script>	
+
+
+
+
+</head>
+
+<style type="text/css" media="screen">
+.at_ex{ width: 490px; height: 490px;margin-right: 24px; margin-bottom: 0; position:absolute; left: 55px; top:55px; background:url(spin2.png); }
+#second {background:url(background.jpg);  width: 597px; height: 597px; position: relative;  }
+.single { background: cyan;}
+.field { width: 38px; height: 38px; position: absolute}
+</style>
+
+
+<div id="wrapper"><div id="second"><div id="at_ex1" class="at_ex"></div></div></div>
+
+
+
+<script type="text/javascript">
+
+var rotation = 0;
+var circle = $('#at_ex1');
+var radius = circle.height() / 2;
+var mouseX = 0, mouseY = 0;
+var clicking = false;
+
+circle.mousedown(function(e){
+    clicking = true;	
+    mouseX = e.pageX;
+    mouseY = e.pageY;
+	var t = this;
+    var mousedownX =  mouseX - radius - t.offsetLeft;
+    var mousedownY =  mouseY - radius - t.offsetTop;
+	rotationdown = Math.atan2(mousedownY, mousedownX)*180/Math.PI;  		
+	
+});
+
+$(document).mouseup(function(){
+    clicking = false;
+	speed = 8	
+
+	function spin(){	
+	frames = setInterval(function() {
+    cssturn();
+	
+if (speed>0)
+  {
+	speed = speed - 0.05;
+    rotation = rotation + speed;	
+  }
+
+else if (speed <= 0){ 
+var sectors = (rotation + rotationdown)%360
+
+if (sectors > 270 & sectors < 360) { alert('more than 270')}
+	else if (sectors > 180 & sectors < 270){ alert('between 180 and 270')}
+	else if	(sectors > 90 & sectors < 180){ alert('between 90 and 180')}
+	else if (sectors > 0 & sectors < 90){ alert('less than 90')}
+	function Xlog(){console.log(sectors)};
+	Xlog();
+
+}  
+else{clearInterval(frames);}  	
+}, 33)} 
+spin();  
+})
+
+circle.mousemove(function(e){
+    if(clicking == false) return;
+    mouseX = e.pageX;
+    mouseY = e.pageY;
+	var t = this;
+    var mousedownX =  mouseX - radius - t.offsetLeft;
+    var mousedownY =  mouseY - radius - t.offsetTop;
+	rotationmove = Math.atan2(mousedownY, mousedownX)*180/Math.PI;
+	rotation = rotationmove - rotationdown  		
+	cssturn();
+	
+	var sectors = (rotation + rotationdown)%360;	
+});	
+	
+function cssturn(){
+	circle.css({
+                "-moz-transform": "rotate(" + rotation + "deg)",
+                "-webkit-transform": "rotate(" + rotation + "deg)",
+                "-o-transform": "rotate(" + rotation + "deg)",
+                "-ms-transform": "rotate(" + rotation + "deg)"});}	
+
+/*circle.mouseup(function(){clearInterval(mouseZ);});	*/
+
+var valuesG = [], //array literal
+    $elements = $(); //empty jQuery object
+
+for (i=0; i < 35; i++) { //we don't have to query array length each iteration 
+    //collect the elements into a jQuery object
+    $elements = $elements.add($("<div class='field'>").attr("id", "light_" + i ));}
+
+var iter = 0
+window.setInterval(function(){   
+	
+	$('#light_'+iter).css("background-image", "url(light1.png)");
+	
+	
+	
+			
+	iter++},50);
+
+
+$elements.appendTo($("#second")); //insert to DOM once - much quicker
+
+var radius = 275;
+var fields = $('.field'), container = $('#second'), width = container.width(), height = container.height();
+var angle = 0, step = (2*Math.PI) / fields.length;
+
+fields.each(function() {
+    var x = Math.round(width/2 + radius * Math.cos(angle) - $(this).width()/2);
+    var y = Math.round(height/2 + radius * Math.sin(angle) - $(this).height()/2);
+    $(this).css({
+        left: x + 'px',
+        top: y + 'px'
+    });
+    angle += step;
+});
+
+
+
+
+var rotationdegree = 0
+
+
+
+
+
+
+function cssdegree(){
+	$('#light_'+i).css({
+                "-moz-transform": "rotate(" + i + "deg)",
+                "-webkit-transform": "rotate(" + i + "deg)",
+                "-o-transform": "rotate(" + i + "deg)",
+                "-ms-transform": "rotate(" + i + "deg)"});}	
+
+for (var i=0; i<200; i++)
+  {
+  cssdegree();
+  }
+
+
+
+
+	function Xlog(){console.log(rotation)};
+	Xlog();
+
+
+
+
+
+
+
+
+
+
+
+
+	
+		
+				
+
+		
+		
+		
+		
+
+
+</script>
+
+</body></html>
+
